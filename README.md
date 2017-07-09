@@ -1,5 +1,5 @@
 # pg
-Password generator
-Tired of remembering passwords?
+# Password generator
+#### Tired of remembering passwords?
 
-Generate it!
+#### Generate it!
