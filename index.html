@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Generator</title>
+</head>
+<body>
+    <div>
+        <h1>Generate password!</h1>
+        <h4>Tired of remembering passwords?</h4>
+        <table>
+            <tr>
+                <td>Passphrase:</td>
+                <td><input id="passphrase" type="text" value="billy.milligan"></td>
+            </tr>
+            <tr>
+                <td>Site:</td>
+                <td><input id="site" type="text" value="@google.com"></td>
+            </tr>
+        </table>
+        <div id="password">WW1sc2JIa3ViV2xzYkdsbllXND1AZ29vZ2xlLmNvbQ</div>
+    </div>
+    <script>
+        passphrase.addEventListener("change", generate);
+        site.addEventListener("change", generate);
+
+        function generate(e) {
+            password.innerText = btoa(btoa(passphrase.value) + site.value).replace(/=/g,"");
+        }
+    </script>
+</body>
+</html>
