@@ -14,7 +14,7 @@
             </tr>
             <tr>
                 <td>Site:</td>
-                <td><input id="site" type="text" value="@google.com"></td>
+                <td><input id="site" type="text" value="google.com"></td>
             </tr>
             <tr>
                 <td>Your password:</td>
@@ -37,7 +37,7 @@
         site.addEventListener("change", generate);
 
         function generate(e) {
-            password.innerText = btoa(hash(passphrase.value + site.value)).replace(/=/g,"");
+            password.innerText = btoa(hash(passphrase.value + "@" + site.value)).replace(/=/g,"");
         }
     </script>
 </body>
