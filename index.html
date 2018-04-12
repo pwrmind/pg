@@ -33,8 +33,11 @@
             }
             return hash;
         }
+
         passphrase.addEventListener("change", generate);
+        passphrase.addEventListener("keydown", generate);
         site.addEventListener("change", generate);
+        site.addEventListener("keydown", generate);
 
         function generate(e) {
             password.innerText = btoa(hash(passphrase.value + "@" + site.value)).replace(/=/g,"");
