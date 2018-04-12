@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <title>Password Generator</title>
 </head>
 <body>
@@ -24,6 +26,7 @@
     </div>
     <script>
         (function(){
+            
             function parseReferrer( url ) {
                 var a = document.createElement('a');
                 a.href = url;
@@ -36,6 +39,7 @@
 
             if( document.referrer ) {
                site.value = parseReferrer( document.referrer ).hostname;
+               generate();
             }
 
             function hash( sicret ) {
@@ -54,7 +58,6 @@
             site.addEventListener( "change", generate );
             site.addEventListener( "keydown", generate );
 
-            generate();
         })();
     </script>
 </body>
