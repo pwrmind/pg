@@ -16,15 +16,28 @@
                 <td>Site:</td>
                 <td><input id="site" type="text" value="@google.com"></td>
             </tr>
+            <tr>
+                <td>Your password:</td>
+                <td><span id="password">MTA5NDU1NDUzNw</span></td>
+            </tr>
         </table>
-        <div id="password">WW1sc2JIa3ViV2xzYkdsbllXND1AZ29vZ2xlLmNvbQ</div>
     </div>
     <script>
+        function hash(sicret) {
+            var hash = 0, i, chr;
+            if (sicret.length === 0) return hash;
+            for (i = 0; i < sicret.length; i++) {
+                chr   = sicret.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            return hash;
+        }
         passphrase.addEventListener("change", generate);
         site.addEventListener("change", generate);
 
         function generate(e) {
-            password.innerText = btoa(btoa(passphrase.value) + site.value).replace(/=/g,"");
+            password.innerText = btoa(hash(passphrase.value + site.value)).replace(/=/g,"");
         }
     </script>
 </body>
