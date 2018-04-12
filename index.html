@@ -24,9 +24,21 @@
     </div>
     <script>
         (function(){
-            password.innerText = document.referrer || password.innerText;
+            function parseReferrer( url ) {
+                var a = document.createElement('a');
+                a.href = url;
+                return a;
+            }
 
-            function hash(sicret) {
+            function generate( e ) {
+                password.innerText = btoa(hash( passphrase.value + "@" + site.value )).replace(/=/g,"");
+            }
+
+            if( document.referrer ) {
+               password.innerText = parseReferrer( document.referrer ).hostname;
+            }
+
+            function hash( sicret ) {
                 var hash = 0, i, chr;
                 if (sicret.length === 0) return hash;
                 for (i = 0; i < sicret.length; i++) {
@@ -37,14 +49,10 @@
                 return hash;
             }
 
-            passphrase.addEventListener("change", generate);
-            passphrase.addEventListener("keydown", generate);
-            site.addEventListener("change", generate);
-            site.addEventListener("keydown", generate);
-
-            function generate(e) {
-                password.innerText = btoa(hash(passphrase.value + "@" + site.value)).replace(/=/g,"");
-            }
+            passphrase.addEventListener( "change", generate );
+            passphrase.addEventListener( "keydown", generate );
+            site.addEventListener( "change", generate );
+            site.addEventListener( "keydown", generate );
         })
     </script>
 </body>
