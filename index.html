@@ -23,25 +23,29 @@
         </table>
     </div>
     <script>
-        function hash(sicret) {
-            var hash = 0, i, chr;
-            if (sicret.length === 0) return hash;
-            for (i = 0; i < sicret.length; i++) {
-                chr   = sicret.charCodeAt(i);
-                hash  = ((hash << 5) - hash) + chr;
-                hash |= 0; // Convert to 32bit integer
+        (function(){
+            password.innerText = document.referrer || password.innerText;
+
+            function hash(sicret) {
+                var hash = 0, i, chr;
+                if (sicret.length === 0) return hash;
+                for (i = 0; i < sicret.length; i++) {
+                    chr   = sicret.charCodeAt(i);
+                    hash  = ((hash << 5) - hash) + chr;
+                    hash |= 0; // Convert to 32bit integer
+                }
+                return hash;
             }
-            return hash;
-        }
 
-        passphrase.addEventListener("change", generate);
-        passphrase.addEventListener("keydown", generate);
-        site.addEventListener("change", generate);
-        site.addEventListener("keydown", generate);
+            passphrase.addEventListener("change", generate);
+            passphrase.addEventListener("keydown", generate);
+            site.addEventListener("change", generate);
+            site.addEventListener("keydown", generate);
 
-        function generate(e) {
-            password.innerText = btoa(hash(passphrase.value + "@" + site.value)).replace(/=/g,"");
-        }
+            function generate(e) {
+                password.innerText = btoa(hash(passphrase.value + "@" + site.value)).replace(/=/g,"");
+            }
+        })
     </script>
 </body>
 </html>
