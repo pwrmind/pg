@@ -35,7 +35,7 @@
             }
 
             if( document.referrer ) {
-               site.innerText = parseReferrer( document.referrer ).hostname;
+               site.value = parseReferrer( document.referrer ).hostname;
             }
 
             function hash( sicret ) {
