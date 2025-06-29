@@ -1,27 +1,315 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Password Generator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Улучшенный генератор паролей</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #1a2a6c, #b21f1f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #1a2a6c, #b21f1f);
+            border-radius: 2px;
+        }
+        
+        h4 {
+            color: #7f8c8d;
+            font-weight: 400;
+            margin-top: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            padding-left: 50px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            outline: none;
+            background-color: #f9f9f9;
+        }
+        
+        input:focus {
+            border-color: #1a2a6c;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            color: #1a2a6c;
+            font-size: 1.3rem;
+        }
+        
+        .password-container {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 10px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .password-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .password-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .password-value {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 1.3rem;
+            font-family: monospace;
+            text-align: center;
+            margin-bottom: 20px;
+            word-break: break-all;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .password-value:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-generate {
+            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            color: white;
+            box-shadow: 0 4px 10px rgba(26, 42, 108, 0.3);
+        }
+        
+        .btn-generate:hover {
+            background: linear-gradient(135deg, #2c3e50, #1a2a6c);
+            transform: translateY(-3px);
+        }
+        
+        .btn-copy {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+        }
+        
+        .btn-copy:hover {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            transform: translateY(-3px);
+        }
+        
+        .strength-meter {
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .strength-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .strength-bars {
+            display: flex;
+            gap: 5px;
+            height: 10px;
+        }
+        
+        .strength-bar {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .security-tip {
+            background-color: #e3f2fd;
+            border-left: 4px solid #1a2a6c;
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <h1>Generate password!</h1>
-        <h4>Tired of remembering passwords?</h4>
-        <table>
-            <tr>
-                <td>Passphrase:</td>
-                <td><input id="passphrase" type="text" value="billy.milligan"></td>
-            </tr>
-            <tr>
-                <td>Site:</td>
-                <td><input id="site" type="text" value="@google.com"></td>
-            </tr>
-            <tr>
-                <td>Your password:</td>
-                <td><span id="password">MTA5NDU1NDUzNw</span></td>
-            </tr>
-        </table>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-lock"></i> Генератор паролей</h1>
+            <h4>Устали запоминать пароли? Мы создадим безопасный пароль за вас!</h4>
+        </header>
+        
+        <div class="input-group">
+            <label for="passphrase"><i class="fas fa-user"></i> Ключевая фраза</label>
+            <div class="input-container">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" id="passphrase" placeholder="Введите ключевую фразу" value="billy.milligan">
+            </div>
+        </div>
+        
+        <div class="input-group">
+            <label for="site"><i class="fas fa-globe"></i> Сайт/сервис</label>
+            <div class="input-container">
+                <i class="fas fa-globe input-icon"></i>
+                <input type="text" id="site" placeholder="Введите название сайта или сервиса" value="@google.com">
+            </div>
+        </div>
+        
+        <div class="security-tip">
+            <i class="fas fa-shield-alt"></i> <strong>Совет по безопасности:</strong> Используйте уникальные ключевые фразы для каждого важного сервиса.
+        </div>
+        
+        <div class="password-container">
+            <div class="password-header">
+                <h3><i class="fas fa-key"></i> Ваш пароль:</h3>
+            </div>
+            <div class="password-value" id="password">MTA5NDU1NDUzNw</div>
+            
+            <div class="strength-meter">
+                <div class="strength-header">
+                    <span>Надёжность пароля:</span>
+                    <span>Высокая</span>
+                </div>
+                <div class="strength-bars">
+                    <div class="strength-bar" style="background-color: #27ae60;"></div>
+                    <div class="strength-bar" style="background-color: #27ae60;"></div>
+                    <div class="strength-bar" style="background-color: #27ae60;"></div>
+                    <div class="strength-bar" style="background-color: #27ae60;"></div>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn-generate" id="generateBtn">
+                    <i class="fas fa-sync-alt"></i> Сгенерировать
+                </button>
+                <button class="btn-copy" id="copyBtn">
+                    <i class="fas fa-copy"></i> Скопировать
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Ваши данные обрабатываются локально и никуда не отправляются</p>
+        </div>
     </div>
+
     <script>
         function hash(sicret) {
             var hash = 0, i, chr;
@@ -33,12 +321,56 @@
             }
             return hash;
         }
-        passphrase.addEventListener("change", generate);
-        site.addEventListener("change", generate);
-
-        function generate(e) {
-            password.innerText = btoa(hash(passphrase.value + site.value)).replace(/=/g,"");
+        
+        function generate() {
+            const combined = passphrase.value + site.value;
+            const hashed = hash(combined);
+            const base64 = btoa(hashed).replace(/=/g, "");
+            password.innerText = base64;
+            
+            // Анимация генерации
+            password.style.transform = 'scale(1.05)';
+            password.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+            setTimeout(() => {
+                password.style.transform = 'scale(1)';
+                password.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+            }, 300);
         }
+        
+        function copyToClipboard() {
+            const textarea = document.createElement('textarea');
+            textarea.value = password.innerText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            // Визуальное подтверждение копирования
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+            copyBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+                copyBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+            }, 2000);
+        }
+        
+        // Инициализация элементов
+        const passphrase = document.getElementById('passphrase');
+        const site = document.getElementById('site');
+        const password = document.getElementById('password');
+        const generateBtn = document.getElementById('generateBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        
+        // События
+        passphrase.addEventListener('input', generate);
+        site.addEventListener('input', generate);
+        generateBtn.addEventListener('click', generate);
+        copyBtn.addEventListener('click', copyToClipboard);
+        
+        // Инициализация генерации
+        generate();
     </script>
 </body>
 </html>
